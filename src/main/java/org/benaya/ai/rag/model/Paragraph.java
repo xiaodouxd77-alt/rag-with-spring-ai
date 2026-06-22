@@ -11,6 +11,7 @@ import java.util.Map;
 @Builder
 public class Paragraph {
     private long id;
+    private Long knowledgeBaseId;
     private int page;
     private String title;
     private String content;
