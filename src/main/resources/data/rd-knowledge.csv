@@ -1,0 +1,16 @@
+DOC_ID,page,display,passage
+1,1,研发Java命名规范,类名使用大驼峰命名（如UserService），方法名使用小驼峰命名（如getUserById），常量使用全大写加下划线（如MAX_COUNT），包名全部小写。
+2,1,研发Java异常处理规范,必须捕获并处理受检异常，自定义异常需继承RuntimeException，异常日志必须包含堆栈信息，禁止吞没异常（空的catch块）。
+3,1,研发Java集合使用规范,单线程环境使用ArrayList和HashMap，多线程环境使用ConcurrentHashMap和CopyOnWriteArrayList，集合初始化时指定初始容量。
+4,1,研发Spring Boot项目结构,项目采用分层架构：Controller（控制层）、Service（业务层）、Repository（数据层）、DTO（数据传输对象）、Config（配置类），包名按功能模块划分。
+5,1,研发Spring事务管理规范,使用@Transactional注解管理事务，事务传播级别默认使用REQUIRED，只读事务设置readOnly=true，避免在循环中开启新事务。
+6,1,研发Spring Bean管理规范,使用@Autowired或@Resource注入依赖，优先使用构造器注入，避免使用字段注入，单例Bean注意线程安全问题。
+7,1,研发SQL编写规范,使用预编译Statement防止SQL注入，表名使用小写加下划线，字段名使用小写加下划线，建表语句需包含注释，必须包含id主键和create_time、update_time字段。
+8,1,研发索引使用规范,频繁查询的字段需建立索引，联合索引遵循最左前缀原则，避免在索引列上使用函数或计算，索引数量不超过表字段数的20%。
+9,1,研发微服务设计规范,服务拆分按业务域划分，每个服务独立部署，服务间通过RESTful API或消息队列通信，需实现服务注册与发现、配置中心、链路追踪。
+10,1,研发代码Review规范,每次Pull Request至少2人Review，Review关注点：代码逻辑、代码规范、安全性、性能、测试覆盖率，核心代码必须通过CI/CD自动化检查。
+11,1,研发技术文档规范,技术文档包含：架构设计文档、API接口文档、数据库设计文档、部署运维文档，使用Markdown编写，文档需随代码一起版本管理。
+12,1,研发部署发布规范,开发环境（Dev）每日自动构建，测试环境（Test）每次代码合并触发部署，预发布环境（Staging）手动触发，生产环境（Prod）需审批后部署。
+13,1,研发单元测试规范,单元测试覆盖率不低于80%，核心业务逻辑覆盖率需达到100%，使用JUnit5和Mockito编写测试，测试类以Test结尾，测试方法使用@Test注解。
+14,1,研发应用安全规范,所有API接口需进行身份认证和权限校验，敏感数据需加密存储（如密码使用BCrypt加密），日志中不能记录密码和身份证号等敏感信息。
+15,1,研发前端开发规范,使用Vue3框架，组件命名使用大驼峰，页面文件放在views目录，组件放在components目录，状态管理使用Pinia，API请求统一封装。

@@ -13,6 +13,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Component
 @RequiredArgsConstructor
@@ -21,15 +23,27 @@ import java.util.List;
 public class DatabaseInitRunner implements ApplicationRunner {
     private final DocumentRepository documentRepository;
     private final CsvParserService csvParserService;
-    @Value("classpath:sample_nda.csv")
-    private Resource ndaResource;
-
+    @Autowired
+    private ResourcePatternResolver resourcePatternResolver;
     @Override
-    public void run(ApplicationArguments args) {
-        List<Document> documents = csvParserService.getContentFromCsv(ndaResource);
-        log.info("Adding documents to vector store");
-        documents.forEach(doc -> log.debug("Document: {}", doc));
-        documentRepository.addDocuments(documents);
-        log.info("done!");
+    public void run(ApplicationArguments args) throws Exception {
+        Resource[] csvResources =
+                resourcePatternResolver.getResources("classpath:data/*.csv");
+
+        log.info("📚 Found {} CSV files to load", csvResources.length);
+        if (csvResources.length == 0) {
+            log.warn("⚠️ No CSV files found in data/ directory!");
+            return;
+        }
+        Long knowledgeBaseId = 1L;
+        // ✅ 最小改动：加上 for 循环遍历每个文件
+        for (Resource resource : csvResources) {
+            log.info("Loading: {}", resource.getFilename());
+            List<Document> documents = csvParserService.getContentFromCsv(resource, knowledgeBaseId);
+            log.info("Adding {} documents to vector store for KB {}", documents.size(), knowledgeBaseId);
+            documentRepository.addDocuments(documents);
+
+        }
+        log.info("✅ All done!");
     }
 }

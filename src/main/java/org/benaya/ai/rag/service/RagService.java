@@ -26,8 +26,9 @@ public class RagService {
     private int topK;
 
     private final DocumentRepository documentRepository;
-    public Prompt generatePromptFromClientPrompt(String clientPrompt) {
-        List<Document> docs = documentRepository.similaritySearchWithTopK(clientPrompt, topK);
+    public Prompt generatePromptFromClientPrompt(String clientPrompt,Long knowledgeBaseId) {
+        List<Document> docs = documentRepository.similaritySearchWithTopK(clientPrompt, topK, knowledgeBaseId);
+        log.info("🔍 Retrieved {} documents for query: {}", docs.size(), clientPrompt);
         Message systemMessage = getSystemMessage(docs);
         log.info("System message: {}", systemMessage.getContent());
         UserMessage userMessage = new UserMessage(clientPrompt);

@@ -14,7 +14,7 @@
 	<name>rag</name>
 	<description>rag</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<spring-ai.version>0.8.1</spring-ai.version>
 		<pdfbox.version>3.0.1</pdfbox.version>
 	</properties>
@@ -94,6 +94,22 @@
 	</dependencyManagement>
 
 	<build>
+		<resources>
+			<!-- ✅ 添加资源包含规则 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.csv</include>
+					<include>**/*.yml</include>
+					<include>**/*.yaml</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.st</include>
+					<include>**/*.txt</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

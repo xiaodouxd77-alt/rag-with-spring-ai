@@ -16,6 +16,10 @@ public class Paragraph {
     private String content;
 
     public Document toDocument(@NonNull Paragraph paragraph) {
-        return new Document(paragraph.getContent(), Map.of("title", paragraph.getTitle(), "page", paragraph.getPage(), "id", paragraph.getId()));
+        return new Document(paragraph.getContent(), Map.of(
+                "title", paragraph.getTitle(),
+                "page", paragraph.getPage(),
+                "id", paragraph.getId(),
+                "knowledgeBaseId", paragraph.getKnowledgeBaseId()));
     }
 }

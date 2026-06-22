@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CsvParserService {
-    public List<Document> getContentFromCsv(Resource resource){
+    public List<Document> getContentFromCsv(Resource resource,Long knowledgeBaseId){
         try (Reader reader = Files.newBufferedReader(Paths.get(resource.getURI()))
              ; CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .builder()
@@ -32,6 +32,7 @@ public class CsvParserService {
             for (CSVRecord csvRecord : csvParser) {
                 Paragraph paragraph = Paragraph.builder()
                         .id(Long.parseLong(csvRecord.get("DOC_ID")))
+                        .knowledgeBaseId(knowledgeBaseId)
                         .page(Integer.parseInt(csvRecord.get("page")))
                         .title(Arrays.stream(csvRecord.get("display").split(" ")).filter(s -> s.equals(s.toUpperCase())).collect(Collectors.joining(" ")))
                         .content(csvRecord.get("passage"))
