@@ -111,6 +111,7 @@
 					<include>**/*.xml</include>
 					<include>**/*.st</include>
 					<include>**/*.txt</include>
+					<include>**/*.sql</include>
 				</includes>
 			</resource>
 		</resources>

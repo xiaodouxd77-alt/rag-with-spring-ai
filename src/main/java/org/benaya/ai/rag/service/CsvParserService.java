@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CsvParserService {
-    public List<Document> getContentFromCsv(Resource resource,Long knowledgeBaseId){
+    public List<Document> getContentFromCsv(Resource resource,Long knowledgeBaseId,Long documentId){
         try (Reader reader = Files.newBufferedReader(Paths.get(resource.getURI()))
              ; CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                 .builder()

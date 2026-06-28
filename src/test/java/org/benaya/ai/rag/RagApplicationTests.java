@@ -1,7 +1,7 @@
 package org.benaya.ai.rag;
 
 import lombok.extern.slf4j.Slf4j;
-import org.benaya.ai.rag.repository.DocumentRepository;
+import org.benaya.ai.rag.repository.VectorStoreRepository;
 import org.benaya.ai.rag.service.RagService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RagApplicationTests {
 
 	@Autowired
-	private DocumentRepository documentRepository;
+	private VectorStoreRepository vectorStoreRepository;
 
 	@Autowired
 	private RagService ragService;
@@ -49,8 +49,8 @@ class RagApplicationTests {
 
 		// 3. 验证隔离效果
 		log.info("\n========== 验证隔离效果 ==========");
-		List<Document> kb1Docs = documentRepository.similaritySearchWithTopK(testQuestion, 10, 1L);
-		List<Document> kb2Docs = documentRepository.similaritySearchWithTopK(testQuestion, 10, 2L);
+		List<Document> kb1Docs = vectorStoreRepository.similaritySearchWithTopK(testQuestion, 10, 1L);
+		List<Document> kb2Docs = vectorStoreRepository.similaritySearchWithTopK(testQuestion, 10, 2L);
 
 		log.info("📊 查询结果统计:");
 		log.info("  知识库 1: {} 条文档", kb1Docs.size());

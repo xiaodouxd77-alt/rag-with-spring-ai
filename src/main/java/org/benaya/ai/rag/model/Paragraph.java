@@ -3,6 +3,7 @@ package org.benaya.ai.rag.model;
 import lombok.*;
 import org.springframework.ai.document.Document;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Setter
@@ -17,10 +18,10 @@ public class Paragraph {
     private String content;
 
     public Document toDocument(@NonNull Paragraph paragraph) {
-        return new Document(paragraph.getContent(), Map.of(
+        return new Document(paragraph.getContent(), new HashMap<>(Map.of(
                 "title", paragraph.getTitle(),
                 "page", paragraph.getPage(),
                 "id", paragraph.getId(),
-                "knowledgeBaseId", paragraph.getKnowledgeBaseId()));
+                "knowledgeBaseId", paragraph.getKnowledgeBaseId())));
     }
 }

@@ -1,6 +1,14 @@
 server:
-  port: 8081
+  port: 8080
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true  # 👈 加这一行
+    show-sql: true
+  sql:
+    init:
+      mode: never
   mvc:
     async:
       request-timeout: ${SPRING_MVC_ASYNC_REQUEST-TIMEOUT:-1}
@@ -21,20 +29,21 @@ spring:
       max-attempts: 20
     ollama:
       embedding:
-        model: ${EMBEDDING_MODEL:nomic-embed-text}
+        model: ${EMBEDDING_MODEL:bge-m3}
         options:
           top-k: ${OLLAMA_EMBEDDING_TOP-K:10}
           num-thread: ${EMBEDDINGS_NUM_THREAD:8}
-          num-ctx: 8192
+          num-ctx: 1024
           num-batch: 768
           top-p: ${OLLAMA_EMBEDDING_TOP-P:0.5}
         enabled: true
       base-url: ${OLLAMA_BASE_URL:http://host.docker.internal:11434}
       chat:
-        model: ${CHAT_MODEL:mistral}
+        model: ${CHAT_MODEL:qwen3.5:2b}
         options:
-          num-ctx: ${CHAT_MODEL_CONTEXT_LENGTH:32768}
+          num-ctx: ${CHAT_MODEL_CONTEXT_LENGTH:2048}
           num-batch: 768
+          num-predict: 512
           num-thread: ${CHAT_NUM_THREAD:8}
           top-k: ${CHAT_TOP-K:1}
           top-p: ${CHAT_TOP-P:0.5}
@@ -42,13 +51,13 @@ spring:
     vectorstore:
       pgvector:
         index-type: ${VECTORSTORE_PGVECTOR_INDEX-TYPE:hnsw}
-        dimensions: ${VECTORSTORE_PGVECTOR_DIMENSIONS:768}
+        dimensions: ${VECTORSTORE_PGVECTOR_DIMENSIONS:1024}
         distance-type: cosine_distance
 
 #      milvus:
 #        collection-name: ${MILVUS_COLLECTION_NAME:vector_store1}
 #        embedding-dimension: ${MILVUS_EMBEDDING_DIM:768}
 database:
-  init: ${DATABASE_INIT:false}
+  init: ${DATABASE_INIT:true}
 queries:
-  top-k: ${QUERIES_TOP-K:3}
+  top-k: ${QUERIES_TOP-K:5}

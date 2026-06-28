@@ -18,6 +18,9 @@ public class ChatGeneratorService {
     public String generate(String message) {
         return getChatClient().call(message);
     }
+    public String generate(Prompt prompt) {
+        return getChatClient().call(prompt).getResult().getOutput().getContent();
+    }
     public Flux<String> generateStream(String message) {
         return getStreamingChatClient().stream(message);
     }

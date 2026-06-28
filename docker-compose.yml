@@ -13,9 +13,14 @@ services:
       - SPRING_DATASOURCE_PASSWORD=postgres
       - OLLAMA_BASE_URL=http://ollama:11434
       - DATABASE_INIT=true
+      - EMBEDDING_MODEL=bge-m3
+      - CHAT_MODEL=qwen2.5:7b
+      - VECTORSTORE_PGVECTOR_DIMENSIONS=1024
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
+      - ollama
+    networks:
+      - rag-network
   postgres:
     image: pgvector/pgvector:0.7.0-pg16
     container_name: postgres
@@ -31,15 +36,22 @@ services:
       interval: 5s
       timeout: 60s
       retries: 5
+    networks:
+      - rag-network
   ollama:
-    container_name: ollama-offline
-    image: benaya7/ollama-offline:mistral_nomic-1
+    container_name: ollama
+    image: ollama/ollama:latest
     ports:
       - "11434:11434"
     environment:
+      - OLLAMA_EMBEDDINGS=1
       - OLLAMA_MODELS=/root/.ollama/models
     volumes:
       - ollama-2:/root/.ollama
-
+    networks:
+      - rag-network
+networks:
+  rag-network:
+    driver: bridge
 volumes:
   ollama-2:

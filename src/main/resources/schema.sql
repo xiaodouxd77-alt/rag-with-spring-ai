@@ -28,4 +28,5 @@ CREATE TABLE IF NOT EXISTS document (
 INSERT INTO knowledge_base (name, code, description) VALUES
                                                          ('HR知识库', 'HR', '人力资源相关制度文档'),
                                                          ('财务知识库', 'FINANCE', '财务管理制度文档'),
-                                                         ('研发知识库', 'R&D', '研发技术文档');
+                                                         ('研发知识库', 'R&D', '研发技术文档')
+ON CONFLICT (code) DO NOTHING;
