@@ -26,7 +26,7 @@ spring:
         initial-interval: 2000
         max-interval: 10000
         multiplier: 4
-      max-attempts: 20
+      max-attempts: 2
     ollama:
       embedding:
         model: ${EMBEDDING_MODEL:bge-m3}
@@ -37,17 +37,17 @@ spring:
           num-batch: 768
           top-p: ${OLLAMA_EMBEDDING_TOP-P:0.5}
         enabled: true
-      base-url: ${OLLAMA_BASE_URL:http://host.docker.internal:11434}
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
       chat:
-        model: ${CHAT_MODEL:qwen3.5:2b}
+        model: ${CHAT_MODEL:qwen2.5:3b}
         options:
           num-ctx: ${CHAT_MODEL_CONTEXT_LENGTH:2048}
           num-batch: 768
           num-predict: 512
           num-thread: ${CHAT_NUM_THREAD:8}
-          top-k: ${CHAT_TOP-K:1}
-          top-p: ${CHAT_TOP-P:0.5}
-          temperature: ${CHAT_TEMPERATURE:0.5}
+          top-k: ${CHAT_TOP-K:40}
+          top-p: ${CHAT_TOP-P:0.9}
+          temperature: ${CHAT_TEMPERATURE:0.7}
     vectorstore:
       pgvector:
         index-type: ${VECTORSTORE_PGVECTOR_INDEX-TYPE:hnsw}
@@ -57,6 +57,12 @@ spring:
 #      milvus:
 #        collection-name: ${MILVUS_COLLECTION_NAME:vector_store1}
 #        embedding-dimension: ${MILVUS_EMBEDDING_DIM:768}
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    org.springframework.web.reactive.function.client: DEBUG
+    org.springframework.ai.ollama: TRACE
+
 database:
   init: ${DATABASE_INIT:true}
 queries:
